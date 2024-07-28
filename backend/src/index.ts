@@ -1,24 +1,34 @@
-import express, { Request, Response } from 'express';
-// import cors from 'cors';
-// import mongoose from 'mongoose';
+import express, { Application, Request, Response } from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db';
+import { notFound, errorHandler } from './middlewares/ErrorMiddleware';
+import UserRoutes from './routes/UserRoutes';
+import cors from 'cors';
 
-const app = express();
-const PORT = process.env.PORT || 3003;
+const app: Application = express();
 
-// app.use(cors());
+dotenv.config();
+
+// console.log(process.env.MONGODB_URI);
+
+connectDB();
+
 app.use(express.json());
+app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from TypeScript backend!');
-});
 
-// MongoDB connection
-// mongoose.connect(process.env.MONGODB_URI as string, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// }).then(() => console.log('MongoDB connected'))
-//   .catch(err => console.log('Failed to connect to MongoDB', err));
+// Default
+app.get("/api", (req: Request, res: Response) =>  {
+    res.status(201).json({ message: "Welcome to Auth ts" });
+})
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// User Route
+app.use("/api/auth", UserRoutes);
+
+// Middleware
+app.use(notFound);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3002;
+
+app.listen(PORT, (): void => console.log(`Server is running on ${PORT}`));

@@ -8,15 +8,48 @@ export default function SignupPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   if (isAuthenticated) {
     router.push('/');
     return null; // Optionally show a loading spinner or message while redirecting
   }
 
-  const handleSignup = (event: React.FormEvent) => {
+  const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault();
-    alert("Signup functionality to be implemented");
+    // Perform signup logic here
+    const signupData = {
+      fullName,
+      email,
+      password
+    };
+  
+    try {
+        const response = await fetch('http://localhost:3002/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(signupData)
+        });
+  
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Signup Success:', data);
+            // Store the token in localStorage
+            localStorage.setItem('token', data.user.token);
+            alert('Signup successful!');
+            // Optionally set auth state here if using context or redux
+            // navigate the user to the dashboard or home page
+            router.push('/');  // Adjust as needed
+        } else {
+            throw new Error(data.message || 'Failed to sign up');
+        }
+    } catch (error) {
+        alert('Error signing up: ' + error);  // Show user-friendly error message
+    }
   };
 
   return (
@@ -29,6 +62,8 @@ export default function SignupPage() {
               type="text"
               required
               className="w-full p-2 border rounded-md"
+              value={fullName}
+              onChange={e => setFullName(e.target.value)}
               placeholder="Full name"
               aria-label="Full name"
             />
@@ -37,6 +72,8 @@ export default function SignupPage() {
             <input
               type="email"
               required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               className="w-full p-2 border rounded-md"
               placeholder="Your email"
               aria-label="Your email"
@@ -46,6 +83,8 @@ export default function SignupPage() {
             <input
               type={showPassword ? "text" : "password"}
               required
+              value={password}
+              onChange={e => setPassword(e.target.value)}
               className="w-full p-2 border rounded-md"
               placeholder="Password"
               aria-label="Password"

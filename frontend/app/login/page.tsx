@@ -8,16 +8,42 @@ export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   if (isAuthenticated) {
     router.push('/');
     return null;
   }
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    login();
-    router.push('/');
+    
+    // Perform login logic here
+    try {
+      const response = await fetch('http://localhost:3002/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        login({  // Pass the received user details to the login function
+          email: data.user.email,
+          fullName: data.user.fullName,
+          token: data.user.token
+        });
+        console.log('Login successful:', data);
+        router.push('/dashboard');  // Adjust as necessary to the correct route
+      } else {
+        throw new Error(data.message || 'Failed to login');
+      }
+    } catch (error) {
+      alert('Login error: ' + error);
+    }
   };
 
   return (
@@ -29,6 +55,8 @@ export default function LoginPage() {
             <input
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full p-2 border rounded-md"
               placeholder="Your email"
               aria-label="Your email"
@@ -38,6 +66,8 @@ export default function LoginPage() {
             <input
               type={showPassword ? "text" : "password"}
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 border rounded-md"
               placeholder="Password"
               aria-label="Password"
