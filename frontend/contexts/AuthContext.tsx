@@ -1,5 +1,7 @@
 "use client"
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+
 
 interface AuthUser {
   email?: string;
@@ -14,7 +16,7 @@ interface AuthContextType {
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
   user: null,
   isAuthenticated: false,
   login: () => {},
@@ -25,7 +27,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
-
+  const router = useRouter();
   // On component mount, check if the user is logged in
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -42,6 +44,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     localStorage.removeItem('user');
     setUser(null);
+    router.push('/login');
   };
 
   return (

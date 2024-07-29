@@ -13,7 +13,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState('');
 
   if (isAuthenticated) {
-    router.push('/');
+    router.push('/home');
     return null; // Optionally show a loading spinner or message while redirecting
   }
 
@@ -43,7 +43,7 @@ export default function SignupPage() {
             alert('Signup successful!');
             // Optionally set auth state here if using context or redux
             // navigate the user to the dashboard or home page
-            router.push('/');  // Adjust as needed
+            router.push('/home');  // Adjust as needed
         } else {
             throw new Error(data.message || 'Failed to sign up');
         }

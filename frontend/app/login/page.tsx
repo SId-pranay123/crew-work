@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
 
   if (isAuthenticated) {
-    router.push('/');
+    router.push('/home');
     return null;
   }
 
@@ -37,7 +37,7 @@ export default function LoginPage() {
           token: data.user.token
         });
         console.log('Login successful:', data);
-        router.push('/dashboard');  // Adjust as necessary to the correct route
+        router.push('/home');  // Adjust as necessary to the correct route
       } else {
         throw new Error(data.message || 'Failed to login');
       }
