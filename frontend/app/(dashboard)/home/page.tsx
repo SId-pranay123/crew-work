@@ -8,15 +8,14 @@ const DashboardPage: React.FC = () => {
     function getFirstName(fullName: string|undefined): string {
         if(!fullName) return '';
         // Split the fullName string into an array of words
-        const nameParts = fullName.trim().split(" ");
-        
+        const nameParts = fullName.trim().split(" ");       
         // Return the first element of the array, which is the first name
         return nameParts[0];
     }
 
     const {user} = useAuth();
   return (
-        <div className='p-6'>
+        <div className='p-6 w-full bg-[#F6F6F7]'>
           <h1 className='text-3xl p-4'>Good morning, {getFirstName(user?.fullName)}!</h1>
           <TaskBoard />
         </div>

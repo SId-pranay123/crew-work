@@ -10,12 +10,7 @@ export interface TaskContextType {
     deleteTask: (id: string) => void;
 }
 
-export const TaskContext = createContext<TaskContextType >({
-    tasks: [],
-    addTask: () => {},  // Provide a no-op function or suitable default behavior
-    moveTask: () => {},
-    deleteTask: () => {}
-});
+export const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -24,7 +19,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setTasks([...tasks, task]);
     };
 
-    const moveTask = (id: string, status: Task['status']) => {
+    const moveTask = (id: string, status: string) => {
         setTasks(tasks.map(task => task.id === id ? { ...task, status } : task));
     };
 

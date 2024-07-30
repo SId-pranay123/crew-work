@@ -14,48 +14,48 @@ export default function Layout({
   return (
     <AuthProvider>
       <TaskProvider>
-    <div className="flex">
-      <div className="w-72 border-r border-slate-300 min-h-screen mr-4 pt-28">
-        
-        <div>
-          <h1 className="text-3xl font-bold mb-4 p-4">{user?.fullName}</h1>
-          <SidebarItem href={"/home"} icon={<HomeIcon />} title="Home" />
-          <SidebarItem
-            href={"/boards"}
-            icon={<TransferIcon />}
-            title="Boards"
-          />
-          <SidebarItem
-            href={"/Settings"}
-            icon={<TransactionsIcon />}
-            title="Settings"
-          />
-          <SidebarItem
-            href={"/Teams"}
-            icon={<P2PTransferIcon />}
-            title="Teams"
-          />
-          <SidebarItem
-            href={"/Analytics"}
-            icon={<P2PTransferIcon />}
-            title="Analytics"
-          />
-          <div className={`flex text-slate-500 cursor-pointer  p-2 pl-8 mt-24`}>
-            <button
-                className={`font-bold text-slate-500`}
-                onClick={() => {
-                  logout();
-                }}
-              >
-              Logout
-            </button>
-          </div>
+        <div className="flex">
+          <div className="w-72 min-w-72 border-r border-slate-300 min-h-screen mr-2 ">
             
+            <div>
+              <h1 className="text-3xl font-bold mb-4 p-4">{user?.fullName}</h1>
+              <SidebarItem href={"/home"} icon={<HomeIcon />} title="Home" />
+              <SidebarItem
+                href={"/boards"}
+                icon={<TransferIcon />}
+                title="Boards"
+              />
+              <SidebarItem
+                href={"/Settings"}
+                icon={<TransactionsIcon />}
+                title="Settings"
+              />
+              <SidebarItem
+                href={"/Teams"}
+                icon={<P2PTransferIcon />}
+                title="Teams"
+              />
+              <SidebarItem
+                href={"/Analytics"}
+                icon={<P2PTransferIcon />}
+                title="Analytics"
+              />
+              <div className={`flex text-slate-500 cursor-pointer pl-8 mt-24`}>
+                <button
+                    className={`font-bold text-slate-500`}
+                    onClick={() => {
+                      logout();
+                    }}
+                  >
+                  Logout
+                </button>
+              </div>
+                
+            </div>
+          </div>
+          {children}
         </div>
-      </div>
-      {children}
-    </div>
-    </TaskProvider>
+      </TaskProvider>
     </AuthProvider>
   );
 }

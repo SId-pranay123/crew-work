@@ -7,11 +7,11 @@ import TaskColumn from './TaskColumn'; // Ensure the import path is correct
 import { Task } from '@/models/task';
 
 const TaskBoard: React.FC = () => {
-  const { tasks } = useContext(TaskContext);
+  const { tasks } = useContext(TaskContext)!;
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      {['ToDo', 'InProgress', 'UnderReview', 'Completed'].map((status) => (
+    <div className='grid grid-cols-4 p-4 bg-white rounded-lg'>
+      {['To do', 'In progress', 'Under review', 'Finished'].map((status) => (
         <TaskColumn 
             key={status}
             status={status as Task['status']}
