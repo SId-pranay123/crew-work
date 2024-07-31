@@ -4,6 +4,7 @@ import connectDB from './config/db';
 import { notFound, errorHandler } from './middlewares/ErrorMiddleware';
 import UserRoutes from './routes/UserRoutes';
 import cors from 'cors';
+import TaskRoutes from './routes/TaskRoutes';
 
 const app: Application = express();
 
@@ -24,6 +25,9 @@ app.get("/api", (req: Request, res: Response) =>  {
 
 // User Route
 app.use("/api/auth", UserRoutes);
+
+//task route 
+app.use("/api/tasks", TaskRoutes);
 
 // Middleware
 app.use(notFound);

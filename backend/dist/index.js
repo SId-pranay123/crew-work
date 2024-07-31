@@ -9,6 +9,7 @@ const db_1 = __importDefault(require("./config/db"));
 const ErrorMiddleware_1 = require("./middlewares/ErrorMiddleware");
 const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const cors_1 = __importDefault(require("cors"));
+const TaskRoutes_1 = __importDefault(require("./routes/TaskRoutes"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 // console.log(process.env.MONGODB_URI);
@@ -21,6 +22,8 @@ app.get("/api", (req, res) => {
 });
 // User Route
 app.use("/api/auth", UserRoutes_1.default);
+//task route 
+app.use("/api/tasks", TaskRoutes_1.default);
 // Middleware
 app.use(ErrorMiddleware_1.notFound);
 app.use(ErrorMiddleware_1.errorHandler);
