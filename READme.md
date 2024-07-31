@@ -31,7 +31,7 @@ tsc -b
 Create a `.env` file in the backend directory and fill in the necessary environment variables:
 
 ```
-DB_URI=mongodb://localhost:27017/myapp
+MONGODB_URI=mongodb://localhost:27017/myapp
 SECRET_KEY=your_secret_key_here
 ```
 
