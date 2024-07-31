@@ -25,21 +25,6 @@ export default function Layout({
                 icon={<TransferIcon />}
                 title="Boards"
               />
-              <SidebarItem
-                href={"/Settings"}
-                icon={<TransactionsIcon />}
-                title="Settings"
-              />
-              <SidebarItem
-                href={"/Teams"}
-                icon={<P2PTransferIcon />}
-                title="Teams"
-              />
-              <SidebarItem
-                href={"/Analytics"}
-                icon={<P2PTransferIcon />}
-                title="Analytics"
-              />
               <div className={`flex text-slate-500 cursor-pointer pl-8 mt-24`}>
                 <button
                     className={`font-bold text-slate-500`}

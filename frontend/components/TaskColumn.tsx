@@ -1,8 +1,9 @@
 // components/TaskColumn.tsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Task } from '../models/task'; // Assuming Task model is correctly defined
 import TaskCard from './TaskCard'; // Ensure the import path is correct
 import TaskModal from './TaskModal';
+import { TaskContext } from '@/contexts/TaskContext';
 
 interface TaskColumnProps {
     status: Task['status'];
@@ -10,7 +11,9 @@ interface TaskColumnProps {
 }
 
 const TaskColumn: React.FC<TaskColumnProps> = ({ status, tasks }) => {
-    const [isModalOpen, setModalOpen] = useState(true);
+
+    const { moveTask} = useContext(TaskContext)!;
+    const [isModalOpen, setModalOpen] = useState(false);
     const [taskType, setTaskType] = useState('To do');
 
     const handleSaveTask = (taskData: any) => {
@@ -23,9 +26,22 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ status, tasks }) => {
         setTaskType(status);
     }
 
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const taskId = e.dataTransfer.getData("text/plain");
+        moveTask(taskId, status);
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault(); // Necessary to allow the drop
+    };
+
+
     return (
-        <div className="mr-6">
-            <div className='flex justify-between'>
+        <div className="mr-6" 
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}>
+            <div className='flex justify-between '>
                 <h2 className="text-lg text-[#818081]">{status}</h2>
                 <div className='mr-6'>icon</div>
             </div>
