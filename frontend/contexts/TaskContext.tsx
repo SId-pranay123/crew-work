@@ -22,7 +22,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Function to fetch tasks by user ID
     const fetchTasksByUserId = async (userId: string) => {
         try {
-            const response = await fetch(`http://localhost:3002/api/tasks/user/${userId}`, {
+            const response = await fetch(`https://crew-work.onrender.com/api/tasks/user/${userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem('token') || ''  // Ensure to include authorization
@@ -50,7 +50,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         // console.log('Task Data:', taskData);
         // try {
-        //     const response = await fetch('http://localhost:3002/api/tasks', {
+        //     const response = await fetch('https://crew-work.onrender.com/api/tasks', {
         //         method: 'POST',
         //         headers: {
         //             'Content-Type': 'application/json',
@@ -73,44 +73,47 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     // Function to update a task
     const updateTask = async (id: string, updatedTask: Partial<Task>) => {
-        try {
-            const response = await fetch(`http://localhost:3002/api/tasks/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem('token') || ''
-                },
-                body: JSON.stringify(updatedTask)
-            });
-            const updatedData = await response.json();
-            if (response.ok) {
-                setTasks(tasks.map(task => task._id === id ? { ...task, ...updatedData } : task));
-            } else {
-                throw new Error(updatedData.message || 'Failed to update task');
-            }
-        } catch (error) {
-            console.error('Error updating task:', error);
-        }
+        // try {
+        //     const response = await fetch(`https://crew-work.onrender.com/api/tasks/${id}`, {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': localStorage.getItem('token') || ''
+        //         },
+        //         body: JSON.stringify(updatedTask)
+        //     });
+        //     const updatedData = await response.json();
+        //     if (response.ok) {
+        //         setTasks(tasks.map(task => task._id === id ? { ...task, ...updatedData } : task));
+        //     } else {
+        //         throw new Error(updatedData.message || 'Failed to update task');
+        //     }
+        // } catch (error) {
+        //     console.error('Error updating task:', error);
+        // }
+
+        setTasks(tasks.map(task => task._id === id ? { ...task, ...updatedTask } : task));
     };
 
     // Function to delete a task
     const deleteTask = async (id: string) => {
-        try {
-            const response = await fetch(`http://localhost:3002/api/tasks/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': localStorage.getItem('token') || ''
-                }
-            });
-            if (response.ok) {
-                setTasks(tasks.filter(task => task._id !== id));
-            } else {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to delete task');
-            }
-        } catch (error) {
-            console.error('Error deleting task:', error);
-        }
+        // try {
+        //     const response = await fetch(`https://crew-work.onrender.com/api/tasks/${id}`, {
+        //         method: 'DELETE',
+        //         headers: {
+        //             'Authorization': localStorage.getItem('token') || ''
+        //         }
+        //     });
+        //     if (response.ok) {
+        //         setTasks(tasks.filter(task => task._id !== id));
+        //     } else {
+        //         const errorData = await response.json();
+        //         throw new Error(errorData.message || 'Failed to delete task');
+        //     }
+        // } catch (error) {
+        //     console.error('Error deleting task:', error);
+        // }
+        setTasks(tasks.filter(task => task._id !== id));
     };
 
     const moveTask = async (taskId: string, status: string) => {
@@ -122,7 +125,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     
         // try {
         //     const updatedTaskData = { ...taskToUpdate, status: newStatus };
-        //     const response = await fetch(`http://localhost:3002/api/tasks/${taskId}`, {
+        //     const response = await fetch(`https://crew-work.onrender.com/api/tasks/${taskId}`, {
         //         method: 'PUT',
         //         headers: {
         //             'Content-Type': 'application/json',

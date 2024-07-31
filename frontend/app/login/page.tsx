@@ -21,7 +21,7 @@ export default function LoginPage() {
     
     // Perform login logic here
     try {
-      const response = await fetch('http://localhost:3002/api/auth', {
+      const response = await fetch('https://crew-work.onrender.com/api/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

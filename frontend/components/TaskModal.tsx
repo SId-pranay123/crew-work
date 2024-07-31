@@ -1,3 +1,4 @@
+"use client";
 // components/TaskModal.tsx
 import React, { useState, useEffect, useContext, use } from 'react';
 import { TaskContext } from '../contexts/TaskContext';
@@ -43,7 +44,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose,  taskType }) => 
   try {
 
     try {
-        const response = await fetch('http://localhost:3002/api/tasks', {
+        const response = await fetch('https://crew-work.onrender.com/api/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
