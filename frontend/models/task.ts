@@ -1,9 +1,9 @@
 // models/Task.ts
 export interface Task {
-    id: string;
+    _id: string;
     title: string;
-    description?: string;
     status: string;
     priority: string;
     deadline?: string;
+    description?: string;   
 }

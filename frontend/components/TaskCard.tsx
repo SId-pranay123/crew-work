@@ -16,11 +16,16 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
        
     // }
 
+    const handleDelete = (task: Task) => {
+        console.log('Delete task:', task);
+        deleteTask(task._id!);
+    }
+
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-        e.dataTransfer.setData("text/plain", task.id);
+        e.dataTransfer.setData("text/plain", task._id!);
     };
 
-    const {editTask, deleteTask} = useContext(TaskContext)!;
+    const { deleteTask} = useContext(TaskContext)!;
     return (
         <div className="bg-[#F8F8F9] border-black rounded-lg p-4 mb-4" draggable="true"
         onDragStart={handleDragStart} >
@@ -36,7 +41,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
                     </button>} */}
                     <button 
                         className="text-red-500 hover:text-red-700"
-                        onClick={() => deleteTask(task.id)}
+                        onClick={handleDelete.bind(null, task)}
                     >
                         Delete
                     </button>

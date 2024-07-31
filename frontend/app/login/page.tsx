@@ -32,6 +32,7 @@ export default function LoginPage() {
       const data = await response.json();
       if (response.ok) {
         login({  // Pass the received user details to the login function
+          _id: data.user.id,
           email: data.user.email,
           fullName: data.user.fullName,
           token: data.user.token

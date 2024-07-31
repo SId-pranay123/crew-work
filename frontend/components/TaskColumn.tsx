@@ -29,6 +29,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ status, tasks }) => {
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         const taskId = e.dataTransfer.getData("text/plain");
+        console.log(taskId, status);
         moveTask(taskId, status);
     };
 
@@ -49,7 +50,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ status, tasks }) => {
             <div className="w-full space-y-4">
                 {tasks.map((task) => (
                     <TaskCard
-                        key={task.id}
+                        key={task._id}
                         task={task}
                         // onDelete={() => console.log('Delete task', task.id)} // Placeholder for actual delete function
                         // onEdit={() => console.log('Edit task', task.id)} // Placeholder for actual edit function

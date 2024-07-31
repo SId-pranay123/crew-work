@@ -1,6 +1,7 @@
 // components/TaskModal.tsx
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, use } from 'react';
 import { TaskContext } from '../contexts/TaskContext';
+import { AuthContext } from '../contexts/AuthContext';
 
 interface TaskModalProps {
   isOpen: boolean;
@@ -15,8 +16,8 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose,  taskType }) => 
   const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
 
-  const {addTask} = useContext(TaskContext)!;
-
+  const {addTask, tasks} = useContext(TaskContext)!;
+  const {user} = useContext(AuthContext)!;
   useEffect(() => {
     if (!isOpen) {
       setTitle('');
@@ -26,10 +27,44 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose,  taskType }) => 
     }
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addTask({ id: Date.now().toString() , title, status, priority, deadline, description })
+    // addTask({ id: Date.now().toString() , title, status, priority, deadline, description })
+    // onClose();
+    const taskData = {
+      title, 
+      status, 
+      priority, 
+      deadline, 
+      description,
+      user: user!._id
+  };
+
+  try {
+
+    try {
+        const response = await fetch('http://localhost:3002/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token') || ''
+            },
+            body: JSON.stringify(taskData)
+        });
+        const newTask = await response.json();
+        if (response.ok) {
+            addTask(newTask);
+        } else {
+            // console.error(newTask.message || 'Failed to add task');
+            throw new Error(newTask.message || 'Failed to add task');
+        }
+    } catch (error) {
+        console.error('Error adding task:', error);
+    }
     onClose();
+  } catch (error) {
+      console.error('Error adding task:', error);
+  }
   };
 
   if (!isOpen) return null;
@@ -85,7 +120,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose,  taskType }) => 
               placeholder="Description"
             />
           </div>
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Save</button>
+          <button type="submit" className="bg-[#3B2B9F] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg w-full">Save</button>
         </form>
       </div>
     </div>

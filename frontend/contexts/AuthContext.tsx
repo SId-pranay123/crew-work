@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 
 interface AuthUser {
+  _id?: string;
   email?: string;
   fullName?: string;
   token?: string;
@@ -37,8 +38,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = (userDetails: AuthUser) => {
-    localStorage.setItem('user', JSON.stringify(userDetails));
     setUser(userDetails);
+    localStorage.setItem('user', JSON.stringify(userDetails));
+    console.log("user sfadsfas",userDetails)
   };
 
   const logout = () => {
